@@ -32,574 +32,92 @@ REGOLE:
 
 const css = `
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-
-:root{
-  --parch:   #f5e6c8;
-  --parch-d: #ede0b0;
-  --parch-dk:#d4c090;
-  --ink:     #1a3a52;
-  --ink-d:   #0d2235;
-  --ink-l:   #2e6080;
-  --gold:    #8a6a2a;
-  --gold-l:  #c8a050;
-  --gold-ll: #e8d090;
-  --seal:    #8b1a1a;
-  --seal-l:  #c02020;
-  --text:    #2d1a00;
-  --text-m:  #5a3a10;
-  --text-l:  #8a6a30;
-  --white:   #fffdf5;
-}
-
-body {
-  background: #2a1a0a;
-  font-family: 'Lora', serif;
-  min-height: 100vh;
-}
-
-.app-wrap {
-  min-height: 100vh;
-  background: radial-gradient(ellipse at center, #3a2510 0%, #1a0d05 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-}
-
-/* ── CARD PERGAMENA ── */
-.card {
-  width: 100%;
-  max-width: 460px;
-  background: var(--parch);
-  border-radius: 4px;
-  border: 2px solid var(--gold);
-  box-shadow:
-    inset 0 0 40px rgba(139,106,42,0.15),
-    0 0 0 4px rgba(139,106,42,0.2),
-    0 20px 60px rgba(0,0,0,0.6);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  min-height: 620px;
-  max-height: 92vh;
-  animation: unfurl .6s cubic-bezier(.22,1,.36,1);
-  position: relative;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border: 1px solid var(--gold-ll);
-  border-radius: 2px;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.5;
-}
-
-@keyframes unfurl {
-  from { opacity:0; transform: scaleY(.95) translateY(10px); }
-  to   { opacity:1; transform: none; }
-}
-
-/* ── HEADER ── */
-.header {
-  background: var(--ink-d);
-  padding: 18px 24px 14px;
-  text-align: center;
-  border-bottom: 2px solid var(--gold);
-  flex-shrink: 0;
-  position: relative;
-}
-
-.header-ornament {
-  font-size: .75rem;
-  color: var(--gold-l);
-  letter-spacing: .3em;
-  margin-bottom: 6px;
-  opacity: .8;
-}
-
-.header-title {
-  font-family: 'Cinzel', serif;
-  font-size: 1.6rem;
-  color: var(--gold-l);
-  letter-spacing: .12em;
-  line-height: 1;
-}
-
-.header-sub {
-  font-family: 'IM Fell English', serif;
-  font-size: .78rem;
-  color: rgba(200,160,80,.75);
-  margin-top: 4px;
-  font-style: italic;
-  letter-spacing: .04em;
-}
-
-.online-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 3px;
-}
-
-.seal-dot {
-  width: 7px; height: 7px;
-  background: #e05050;
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-  box-shadow: 0 0 0 2px rgba(224,80,80,.25);
-}
-
-@keyframes pulse { 50% { box-shadow: 0 0 0 4px rgba(224,80,80,.1); } }
-
-/* ── NAV ── */
-.nav {
-  display: flex;
-  border-bottom: 2px solid var(--gold);
-  flex-shrink: 0;
-  background: var(--parch-d);
-}
-
-.nav-btn {
-  flex: 1;
-  padding: 9px 4px;
-  border: none;
-  background: none;
-  font-family: 'Cinzel', serif;
-  font-size: .65rem;
-  font-weight: 400;
-  color: var(--text-l);
-  cursor: pointer;
-  transition: all .2s;
-  border-bottom: 2px solid transparent;
-  letter-spacing: .06em;
-  margin-bottom: -2px;
-}
-
-.nav-btn.active {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
-  background: var(--parch);
-}
-
-/* ── BODY ── */
-.body { flex:1; overflow-y:auto; background: var(--parch); }
-.body::-webkit-scrollbar { width:4px; }
-.body::-webkit-scrollbar-thumb { background: var(--gold-ll); border-radius:2px; }
-
-/* ── ONBOARD ── */
-.onboard { padding: 28px 26px; display: flex; flex-direction: column; gap: 18px; }
-
-.ornament-divider {
-  text-align: center;
-  font-size: .8rem;
-  color: var(--gold-l);
-  letter-spacing: .2em;
-  margin: -4px 0;
-}
-
-.section-title {
-  font-family: 'Cinzel', serif;
-  font-size: 1.1rem;
-  color: var(--ink);
-  letter-spacing: .08em;
-  text-align: center;
-}
-
-.section-sub {
-  font-family: 'IM Fell English', serif;
-  font-size: .85rem;
-  color: var(--text-m);
-  text-align: center;
-  font-style: italic;
-  margin-top: -10px;
-}
-
-.parch-box {
-  background: var(--white);
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  padding: 16px 18px;
-  font-family: 'IM Fell English', serif;
-  font-size: .9rem;
-  color: var(--text-m);
-  line-height: 1.7;
-  position: relative;
-}
-
-.parch-box::after {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border: .5px solid var(--gold-ll);
-  border-radius: 2px;
-  pointer-events: none;
-}
-
-.parch-box strong { color: var(--ink); font-style: normal; }
-
-.emergency {
-  font-family: 'IM Fell English', serif;
-  font-size: .75rem;
-  color: var(--text-l);
-  text-align: center;
-  font-style: italic;
-  line-height: 1.6;
-}
-
-/* ── FIELD ── */
-.f-label {
-  font-family: 'Cinzel', serif;
-  font-size: .68rem;
-  color: var(--gold);
-  letter-spacing: .1em;
-  margin-bottom: 5px;
-}
-
-.f-input {
-  width: 100%;
-  padding: 9px 12px;
-  border: none;
-  border-bottom: 1px solid var(--gold);
-  background: transparent;
-  font-family: 'IM Fell English', serif;
-  font-size: .95rem;
-  color: var(--text);
-  outline: none;
-  transition: border-color .2s;
-  font-style: italic;
-}
-
-.f-input:focus { border-bottom-color: var(--ink); }
-.f-input::placeholder { color: var(--text-l); }
-
-/* ── BOTTONE SIGILLO ── */
-.btn-seal {
-  width: 100%;
-  padding: 12px;
-  background: var(--ink-d);
-  color: var(--gold-l);
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  font-family: 'Cinzel', serif;
-  font-size: .8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .2s;
-  letter-spacing: .1em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.btn-seal:hover { background: var(--ink); }
-.btn-seal:disabled { opacity: .4; cursor: default; }
-
-.btn-link {
-  background: none;
-  border: none;
-  color: var(--text-l);
-  font-family: 'IM Fell English', serif;
-  font-size: .85rem;
-  cursor: pointer;
-  text-align: center;
-  font-style: italic;
-  text-decoration: underline;
-  text-decoration-color: var(--gold-ll);
-}
-
-/* ── TOPIC GRID ── */
-.topic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-.topic-card {
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  padding: 12px 10px;
-  cursor: pointer;
-  transition: all .2s;
-  background: var(--white);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  position: relative;
-}
-
-.topic-card:hover { background: var(--parch-d); }
-.topic-card.selected { background: var(--ink-d); border-color: var(--gold-l); }
-.topic-card.selected .t-name { color: var(--gold-l); }
-.topic-card.selected .t-sub { color: rgba(200,160,80,.7); }
-.topic-card.wide { grid-column: 1/-1; flex-direction: row; justify-content: center; gap: 10px; }
-
-.t-emoji { font-size: 1.2rem; }
-.t-name { font-family: 'Cinzel', serif; font-size: .78rem; color: var(--ink); letter-spacing: .04em; }
-.t-sub { font-family: 'IM Fell English', serif; font-size: .72rem; color: var(--text-l); font-style: italic; }
-
-/* ── CHAT ── */
-.chat-area { padding: 20px 18px 12px; display: flex; flex-direction: column; gap: 14px; }
-
-.letter-bubble {
-  padding: 14px 16px;
-  border-radius: 3px;
-  font-family: 'IM Fell English', serif;
-  font-size: .92rem;
-  line-height: 1.8;
-  animation: fadeIn .3s ease;
-  position: relative;
-  max-width: 88%;
-}
-
-@keyframes fadeIn { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
-
-.letter-from {
-  background: var(--white);
-  border: 1px solid var(--gold);
-  align-self: flex-start;
-  color: var(--text-m);
-  font-style: italic;
-}
-
-.letter-from::before {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border: .5px solid var(--gold-ll);
-  border-radius: 2px;
-  pointer-events: none;
-}
-
-.letter-user {
-  background: var(--ink-d);
-  border: 1px solid var(--gold);
-  align-self: flex-end;
-  color: var(--gold-ll);
-  font-style: italic;
-}
-
-.topic-badge {
-  align-self: center;
-  background: var(--parch-d);
-  border: 1px solid var(--gold);
-  border-radius: 20px;
-  padding: 4px 14px;
-  font-family: 'Cinzel', serif;
-  font-size: .65rem;
-  color: var(--gold);
-  letter-spacing: .08em;
-}
-
-.typing-quill {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  padding: 12px 16px;
-  background: var(--white);
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  align-self: flex-start;
-  animation: fadeIn .25s ease;
-}
-
-.qdot {
-  width: 6px; height: 6px;
-  background: var(--gold-l);
-  border-radius: 50%;
-  animation: qdot 1.2s infinite;
-}
+body{min-height:100vh;font-family:'Lora',serif;background:#1a0e05;}
+.app-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;background:radial-gradient(ellipse at 30% 20%,rgba(80,40,10,0.8) 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(60,25,5,0.9) 0%,transparent 60%),#1a0e05;}
+.card{width:100%;max-width:480px;border-radius:2px;overflow:hidden;display:flex;flex-direction:column;min-height:640px;max-height:94vh;animation:unfurl .7s cubic-bezier(.22,1,.36,1);position:relative;background:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(139,100,40,0.03) 28px,rgba(139,100,40,0.03) 29px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(139,100,40,0.02) 40px,rgba(139,100,40,0.02) 41px),linear-gradient(160deg,#f2dda0 0%,#e8c870 15%,#f5e0a0 30%,#ddb84e 45%,#f0d888 60%,#e2c060 75%,#f5e0a0 90%,#d4a830 100%);box-shadow:0 0 0 1px rgba(100,60,10,0.6),0 0 0 3px rgba(80,45,5,0.4),0 0 0 5px rgba(60,30,0,0.3),0 30px 80px rgba(0,0,0,0.8),inset 0 0 80px rgba(139,90,20,0.2),inset 0 0 20px rgba(100,60,10,0.15);}
+.card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 0% 0%,rgba(80,40,0,0.4) 0%,transparent 30%),radial-gradient(ellipse at 100% 0%,rgba(60,30,0,0.3) 0%,transparent 25%),radial-gradient(ellipse at 0% 100%,rgba(70,35,0,0.4) 0%,transparent 25%),radial-gradient(ellipse at 100% 100%,rgba(80,40,0,0.5) 0%,transparent 30%);pointer-events:none;z-index:10;}
+.card::after{content:'';position:absolute;inset:8px;border:1px solid rgba(180,130,40,0.5);pointer-events:none;z-index:11;box-shadow:inset 0 0 0 2px rgba(220,170,60,0.2);}
+@keyframes unfurl{from{opacity:0;transform:scaleY(.96) translateY(16px)}to{opacity:1;transform:none}}
+.header{padding:24px 28px 18px;text-align:center;flex-shrink:0;position:relative;background:linear-gradient(180deg,rgba(15,8,2,0.97) 0%,rgba(20,10,3,0.95) 100%);border-bottom:1px solid rgba(180,130,40,0.6);box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+.header::after{content:'';position:absolute;bottom:-1px;left:20px;right:20px;height:1px;background:linear-gradient(90deg,transparent,rgba(220,170,60,0.8),transparent);}
+.h-orn{font-size:.7rem;color:rgba(200,155,50,0.7);letter-spacing:.4em;margin-bottom:8px;font-family:'Cinzel',serif;}
+.h-title{font-family:'Cinzel',serif;font-size:2rem;background:linear-gradient(180deg,#f0d060 0%,#c8960a 40%,#e8c040 70%,#a07010 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:.15em;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.5));}
+.h-sub{font-family:'IM Fell English',serif;font-size:.82rem;color:rgba(200,155,50,0.65);margin-top:6px;font-style:italic;letter-spacing:.05em;}
+.online-row{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:4px;}
+.seal-dot{width:8px;height:8px;background:radial-gradient(circle at 35% 35%,#ff8080,#8b1a1a);border-radius:50%;animation:pulse 2s infinite;box-shadow:0 0 6px rgba(180,30,30,.5);}
+@keyframes pulse{50%{box-shadow:0 0 10px rgba(180,30,30,.3);}}
+.nav{display:flex;flex-shrink:0;background:rgba(15,8,2,0.85);border-bottom:1px solid rgba(140,100,30,0.5);}
+.nav-btn{flex:1;padding:10px 4px;border:none;background:none;font-family:'Cinzel',serif;font-size:.62rem;color:rgba(180,130,40,0.5);cursor:pointer;transition:all .2s;border-bottom:2px solid transparent;letter-spacing:.08em;margin-bottom:-1px;}
+.nav-btn.active{color:rgba(220,170,60,0.95);border-bottom-color:rgba(200,150,40,0.8);background:rgba(30,15,3,0.6);}
+.body{flex:1;overflow-y:auto;position:relative;}
+.body::-webkit-scrollbar{width:4px;}
+.body::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(160,110,30,0.6),rgba(100,65,10,0.6));border-radius:2px;}
+.onboard{padding:30px 28px;display:flex;flex-direction:column;gap:20px;}
+.orn{text-align:center;font-family:'Cinzel',serif;font-size:.65rem;color:rgba(140,100,30,0.7);letter-spacing:.25em;}
+.s-title{font-family:'Cinzel',serif;font-size:1.15rem;color:#3d2005;text-align:center;letter-spacing:.1em;}
+.s-sub{font-family:'IM Fell English',serif;font-size:.88rem;color:#6b4010;text-align:center;font-style:italic;margin-top:-12px;}
+.pbox{background:linear-gradient(135deg,rgba(255,248,220,0.95),rgba(245,230,180,0.9));border:1px solid rgba(140,95,25,0.6);border-radius:1px;padding:18px 20px;font-family:'IM Fell English',serif;font-size:.93rem;color:#3d2005;line-height:1.8;position:relative;box-shadow:inset 0 0 30px rgba(139,100,20,0.08),0 2px 8px rgba(80,40,0,0.15);}
+.pbox::before{content:'';position:absolute;inset:4px;border:.5px solid rgba(180,130,40,0.25);pointer-events:none;}
+.pbox strong{color:#1a0e05;font-style:normal;}
+.emergency{font-family:'IM Fell English',serif;font-size:.78rem;color:rgba(80,45,10,0.7);text-align:center;font-style:italic;line-height:1.6;}
+.f-label{font-family:'Cinzel',serif;font-size:.65rem;color:rgba(100,65,15,0.8);letter-spacing:.12em;margin-bottom:6px;}
+.f-input{width:100%;padding:9px 4px;border:none;border-bottom:1px solid rgba(140,95,25,0.5);background:transparent;font-family:'IM Fell English',serif;font-size:.97rem;color:#2a1500;outline:none;transition:border-color .2s;font-style:italic;}
+.f-input:focus{border-bottom-color:rgba(80,40,5,0.9);}
+.f-input::placeholder{color:rgba(120,80,20,0.45);}
+.btn-wax{width:100%;padding:14px;background:linear-gradient(180deg,#2a1208 0%,#1a0a04 100%);color:rgba(210,160,40,0.95);border:1px solid rgba(160,110,30,0.6);border-radius:1px;font-family:'Cinzel',serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.14em;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 4px 12px rgba(0,0,0,0.4),inset 0 1px 0 rgba(200,150,40,0.15);}
+.btn-wax:hover{background:linear-gradient(180deg,#3a1a0a 0%,#2a1008 100%);}
+.btn-wax:disabled{opacity:.4;cursor:default;}
+.wax-seal{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#e05050,#7a1010 60%,#4a0808 100%);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:rgba(255,200,150,0.9);box-shadow:0 2px 6px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,150,100,0.3);flex-shrink:0;}
+.btn-link{background:none;border:none;color:rgba(100,65,15,0.6);font-family:'IM Fell English',serif;font-size:.85rem;cursor:pointer;text-align:center;font-style:italic;text-decoration:underline;}
+.topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.topic-card{border:1px solid rgba(140,95,25,0.45);border-radius:1px;padding:13px 10px;cursor:pointer;transition:all .2s;background:rgba(255,245,200,0.6);text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.topic-card:hover{background:rgba(255,240,170,0.8);}
+.topic-card.selected{background:linear-gradient(135deg,#1a0a04,#2a1208);border-color:rgba(180,130,40,0.7);}
+.topic-card.selected .t-name{color:rgba(210,160,40,0.95);}
+.topic-card.selected .t-sub{color:rgba(170,120,30,0.7);}
+.topic-card.wide{grid-column:1/-1;flex-direction:row;justify-content:center;gap:10px;}
+.t-emoji{font-size:1.3rem;}
+.t-name{font-family:'Cinzel',serif;font-size:.75rem;color:#3d2005;letter-spacing:.04em;}
+.t-sub{font-family:'IM Fell English',serif;font-size:.72rem;color:#6b4010;font-style:italic;}
+.chat-area{padding:22px 18px 12px;display:flex;flex-direction:column;gap:14px;}
+.letter-bubble{padding:16px 18px;border-radius:1px;font-family:'IM Fell English',serif;font-size:.95rem;line-height:1.85;animation:fadeIn .3s ease;position:relative;max-width:90%;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.letter-from{background:linear-gradient(135deg,rgba(255,248,215,0.95),rgba(245,228,170,0.9));border:1px solid rgba(140,95,25,0.5);align-self:flex-start;color:#2a1500;font-style:italic;box-shadow:2px 3px 10px rgba(80,40,0,0.15),inset 0 0 20px rgba(200,150,30,0.06);}
+.letter-from::before{content:'';position:absolute;inset:4px;border:.5px solid rgba(180,130,40,0.2);pointer-events:none;}
+.letter-user{background:linear-gradient(135deg,#1a0a04,#2a1208);border:1px solid rgba(160,110,30,0.5);align-self:flex-end;color:rgba(220,175,80,0.9);font-style:italic;box-shadow:-2px 3px 10px rgba(0,0,0,0.3);}
+.topic-badge{align-self:center;background:rgba(20,10,3,0.7);border:1px solid rgba(140,100,30,0.5);border-radius:20px;padding:5px 16px;font-family:'Cinzel',serif;font-size:.62rem;color:rgba(190,140,40,0.8);letter-spacing:.1em;}
+.typing-ink{display:flex;gap:5px;align-items:center;padding:13px 16px;background:rgba(255,245,200,0.7);border:1px solid rgba(140,95,25,0.4);border-radius:1px;align-self:flex-start;animation:fadeIn .25s ease;}
+.qdot{width:6px;height:6px;background:rgba(140,95,25,0.7);border-radius:50%;animation:qdot 1.2s infinite;}
 .qdot:nth-child(2){animation-delay:.2s}
 .qdot:nth-child(3){animation-delay:.4s}
-@keyframes qdot{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}
-
-/* ── INPUT ── */
-.input-bar {
-  padding: 10px 16px 14px;
-  border-top: 1px solid var(--gold);
-  background: var(--parch-d);
-  display: flex;
-  gap: 8px;
-  align-items: flex-end;
-  flex-shrink: 0;
-}
-
-.quill-textarea {
-  flex: 1;
-  border: none;
-  border-bottom: 1px solid var(--gold);
-  background: transparent;
-  font-family: 'IM Fell English', serif;
-  font-size: .92rem;
-  color: var(--text);
-  resize: none;
-  outline: none;
-  min-height: 38px;
-  max-height: 90px;
-  line-height: 1.5;
-  font-style: italic;
-  padding: 4px 6px;
-}
-
-.quill-textarea::placeholder { color: var(--text-l); }
-
-.seal-send {
-  width: 38px; height: 38px;
-  border-radius: 50%;
-  background: var(--seal);
-  border: 1px solid var(--gold);
-  color: var(--gold-ll);
-  font-size: .9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all .15s;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
-}
-
-.seal-send:hover { background: var(--seal-l); transform: scale(1.06); }
-.seal-send:disabled { opacity: .4; cursor: default; transform: none; }
-
-/* ── PROFILO ── */
-.profile-section { padding: 24px 24px; display: flex; flex-direction: column; gap: 16px; }
-
-.profile-scroll {
-  background: var(--white);
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  padding: 18px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.profile-wax {
-  width: 50px; height: 50px;
-  border-radius: 50%;
-  background: var(--seal);
-  color: var(--gold-ll);
-  font-family: 'Cinzel', serif;
-  font-size: 1.3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border: 2px solid var(--gold);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.15);
-}
-
-.profile-name { font-family: 'Cinzel', serif; font-size: .95rem; color: var(--ink); letter-spacing: .04em; }
-.profile-detail { font-family: 'IM Fell English', serif; font-size: .78rem; color: var(--text-l); margin-top: 2px; font-style: italic; }
-
-.info-scroll {
-  background: var(--white);
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  padding: 14px 16px;
-  font-family: 'IM Fell English', serif;
-  font-size: .85rem;
-  color: var(--text-m);
-  line-height: 1.65;
-}
-
-.info-scroll strong { color: var(--ink); }
-
-.change-btn {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  background: transparent;
-  color: var(--ink);
-  font-family: 'Cinzel', serif;
-  font-size: .72rem;
-  font-weight: 400;
-  cursor: pointer;
-  transition: all .2s;
-  letter-spacing: .08em;
-}
-
-.change-btn:hover { background: var(--parch-d); }
-
-/* ── DONAZIONI ── */
-.donation-section { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-
-.donation-hero {
-  background: var(--white);
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  padding: 20px;
-  text-align: center;
-}
-
-.donation-icon { font-size: 2.4rem; margin-bottom: 8px; }
-.donation-title { font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--ink); letter-spacing: .06em; margin-bottom: 6px; }
-.donation-text { font-family: 'IM Fell English', serif; font-size: .85rem; color: var(--text-m); line-height: 1.65; font-style: italic; }
-
-.kofi-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 12px;
-  background: #c0392b;
-  color: var(--gold-ll);
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  font-family: 'Cinzel', serif;
-  font-size: .78rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all .15s;
-  text-decoration: none;
-  letter-spacing: .08em;
-}
-
-.kofi-btn:hover { background: #e74c3c; transform: translateY(-1px); }
-
-.donation-note {
-  font-family: 'IM Fell English', serif;
-  font-size: .75rem;
-  color: var(--text-l);
-  text-align: center;
-  font-style: italic;
-  line-height: 1.6;
-}
-
-.what-scroll {
-  background: var(--white);
-  border: 1px solid var(--gold);
-  border-radius: 3px;
-  padding: 16px;
-}
-
-.what-title {
-  font-family: 'Cinzel', serif;
-  font-size: .68rem;
-  color: var(--gold);
-  letter-spacing: .1em;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.what-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  margin-bottom: 7px;
-  font-family: 'IM Fell English', serif;
-  font-size: .83rem;
-  color: var(--text-m);
-  line-height: 1.5;
-  font-style: italic;
-}
+@keyframes qdot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+.input-bar{padding:10px 16px 14px;border-top:1px solid rgba(140,95,25,0.4);background:rgba(240,220,150,0.3);display:flex;gap:10px;align-items:flex-end;flex-shrink:0;}
+.quill-ta{flex:1;border:none;border-bottom:1px solid rgba(120,80,20,0.5);background:transparent;font-family:'IM Fell English',serif;font-size:.95rem;color:#2a1500;resize:none;outline:none;min-height:36px;max-height:90px;line-height:1.5;font-style:italic;padding:3px 4px;}
+.quill-ta::placeholder{color:rgba(120,80,20,0.4);}
+.seal-send{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#d04040,#7a0f0f 55%,#500808 100%);border:1px solid rgba(160,100,30,0.6);color:rgba(255,200,150,0.9);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;box-shadow:0 3px 10px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,150,100,0.3),inset 0 -1px 0 rgba(0,0,0,0.3);}
+.seal-send:hover{transform:scale(1.08);}
+.seal-send:disabled{opacity:.35;cursor:default;transform:none;}
+.profile-section{padding:26px 24px;display:flex;flex-direction:column;gap:16px;}
+.profile-card{background:rgba(255,245,200,0.7);border:1px solid rgba(140,95,25,0.5);border-radius:1px;padding:18px;display:flex;align-items:center;gap:14px;}
+.profile-wax{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#c03030,#7a0f0f 55%,#500808 100%);color:rgba(255,200,150,0.9);font-family:'Cinzel',serif;font-size:1.4rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid rgba(160,110,30,0.6);box-shadow:0 3px 10px rgba(0,0,0,0.3);}
+.profile-name{font-family:'Cinzel',serif;font-size:1rem;color:#2a1500;letter-spacing:.05em;}
+.profile-detail{font-family:'IM Fell English',serif;font-size:.8rem;color:#6b4010;margin-top:2px;font-style:italic;}
+.info-box{background:rgba(255,245,200,0.6);border:1px solid rgba(140,95,25,0.4);border-radius:1px;padding:14px 16px;font-family:'IM Fell English',serif;font-size:.88rem;color:#4a2e08;line-height:1.7;}
+.info-box strong{color:#1a0e05;}
+.change-btn{width:100%;padding:11px;border:1px solid rgba(120,80,20,0.4);border-radius:1px;background:transparent;color:#4a2e08;font-family:'Cinzel',serif;font-size:.7rem;cursor:pointer;transition:all .2s;letter-spacing:.1em;}
+.change-btn:hover{background:rgba(200,150,30,0.1);}
+.donation-section{padding:26px 24px;display:flex;flex-direction:column;gap:16px;}
+.donation-hero{background:rgba(255,245,200,0.7);border:1px solid rgba(140,95,25,0.5);border-radius:1px;padding:22px;text-align:center;}
+.donation-icon{font-size:2.6rem;margin-bottom:10px;}
+.donation-title{font-family:'Cinzel',serif;font-size:1.1rem;color:#2a1500;letter-spacing:.08em;margin-bottom:8px;}
+.donation-text{font-family:'IM Fell English',serif;font-size:.88rem;color:#4a2e08;line-height:1.7;font-style:italic;}
+.kofi-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;background:linear-gradient(180deg,#8b1a1a,#5a0808);color:rgba(255,200,150,0.95);border:1px solid rgba(160,100,30,0.5);border-radius:1px;font-family:'Cinzel',serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .15s;text-decoration:none;letter-spacing:.1em;box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+.kofi-btn:hover{background:linear-gradient(180deg,#a02020,#6a1010);transform:translateY(-1px);}
+.donation-note{font-family:'IM Fell English',serif;font-size:.78rem;color:rgba(80,50,10,0.6);text-align:center;font-style:italic;line-height:1.6;}
+.what-box{background:rgba(255,245,200,0.6);border:1px solid rgba(140,95,25,0.4);border-radius:1px;padding:16px;}
+.what-title{font-family:'Cinzel',serif;font-size:.65rem;color:rgba(120,80,20,0.7);letter-spacing:.12em;margin-bottom:12px;text-align:center;}
+.what-item{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;font-family:'IM Fell English',serif;font-size:.86rem;color:#4a2e08;line-height:1.5;font-style:italic;}
 `;
 
 export default function UnAmico() {
@@ -610,11 +128,10 @@ export default function UnAmico() {
   const [friendName, setFriendName] = useState("");
   const [selectedTopic, setTopic]   = useState(null);
   const [messages, setMessages]     = useState([]);
-  const [apiHistory, setApiHistory] = useState([]);
+  const [apiHistory, setApiHist]    = useState([]);
   const [inputVal, setInputVal]     = useState("");
   const [isTyping, setIsTyping]     = useState(false);
-  const endRef   = useRef(null);
-  const inputRef = useRef(null);
+  const endRef = useRef(null);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, isTyping]);
 
@@ -623,12 +140,9 @@ export default function UnAmico() {
 
   const startChat = () => {
     const topicLabel = currentTopic ? `${currentTopic.emoji} ${currentTopic.label}` : "Chiacchiere";
-    const welcome = {
-      role: "assistant",
-      content: `Caro/a ${userName},\n\nho ricevuto la tua lettera con gioia. Hai scelto di parlare di "${topicLabel}" — ti ascolto con tutto il cuore.\n\nCome stai, davvero?\n\nCon affetto,\n${fName}`
-    };
+    const welcome = { role: "assistant", content: `Caro/a ${userName},\n\nho ricevuto la tua lettera con gioia. Hai scelto di parlare di "${topicLabel}" — ti ascolto con tutto il cuore.\n\nCome stai, davvero?\n\nCon affetto,\n${fName}` };
     setMessages([welcome]);
-    setApiHistory([welcome]);
+    setApiHist([welcome]);
     setScreen("chat");
     setActiveTab("chat");
   };
@@ -645,47 +159,31 @@ export default function UnAmico() {
       const res = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 1000,
-          system: SYSTEM_PROMPT(userName, fName, selectedTopic || "chiacchiere"),
-          messages: newHist,
-        }),
+        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, system: SYSTEM_PROMPT(userName, fName, selectedTopic || "chiacchiere"), messages: newHist }),
       });
       const data = await res.json();
       const reply = data.content?.[0]?.text || "...";
       const aMsg = { role: "assistant", content: reply };
       setMessages([...newMsgs, aMsg]);
-      setApiHistory([...newHist, aMsg]);
+      setApiHist([...newHist, aMsg]);
     } catch {
       setMessages([...newMsgs, { role: "assistant", content: "La penna si è fermata un momento. Riprova tra poco 🪶" }]);
     } finally { setIsTyping(false); }
   };
 
-  const handleKey = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-  };
-
-  const headerTitle = screen === "chat" ? fName : "Un Amico";
-  const headerSub   = screen === "chat" ? "in ascolto" : "Un posto dove non sei solo";
+  const handleKey = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } };
 
   return (
     <>
       <style>{css}</style>
       <div className="app-wrap">
         <div className="card">
-
-          {/* HEADER */}
           <div className="header">
-            <div className="header-ornament">✦ ─── ✦ ─── ✦</div>
-            <div className="header-title">{headerTitle}</div>
-            {screen === "chat"
-              ? <div className="online-row"><div className="seal-dot" /><div className="header-sub">{headerSub}</div></div>
-              : <div className="header-sub">{headerSub}</div>
-            }
+            <div className="h-orn">✦ ── ✦ ── ✦</div>
+            <div className="h-title">{screen === "chat" ? fName : "Un Amico"}</div>
+            {screen === "chat" ? <div className="online-row"><div className="seal-dot"/><div className="h-sub">in ascolto</div></div> : <div className="h-sub">Un posto dove non sei solo</div>}
           </div>
 
-          {/* NAV */}
           {screen === "chat" && (
             <nav className="nav">
               {[["chat","✦ Lettere"],["profilo","✦ Profilo"],["sostieni","✦ Sostieni"]].map(([id,label]) => (
@@ -694,170 +192,101 @@ export default function UnAmico() {
             </nav>
           )}
 
-          {/* ── WELCOME ── */}
           {screen === "welcome" && (
-            <div className="body">
-              <div className="onboard">
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
-                <div className="section-title">Caro Lettore</div>
-                <div className="parch-box">
-                  Prima di iniziare, voglio essere onesto con te: sono un'app creata da una <strong>persona comune</strong>, non uno psicologo, medico o professionista della salute mentale.<br /><br />
-                  Posso ascoltarti e farti compagnia — come farebbe un amico. Se stai attraversando una vera crisi, ti chiedo di parlare con qualcuno di fiducia.
-                </div>
-                <p className="emergency">⚠ In caso di emergenza: <strong>112</strong><br />Telefono Amico: <strong>02-2327-2327</strong></p>
-                <div className="btn-seal" onClick={() => setScreen("register")} style={{cursor:"pointer"}}>
-                  <span>🪶</span> Ho capito, continua
-                </div>
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
-              </div>
-            </div>
+            <div className="body"><div className="onboard">
+              <div className="orn">✦ ── ✦ ── ✦</div>
+              <div className="s-title">Caro Lettore</div>
+              <div className="pbox">Prima di iniziare, voglio essere onesto con te: sono un'app creata da una <strong>persona comune</strong>, non uno psicologo, medico o professionista della salute mentale.<br/><br/>Posso ascoltarti e farti compagnia — come farebbe un amico. Se stai attraversando una vera crisi, ti chiedo di parlare con qualcuno di fiducia.</div>
+              <p className="emergency">⚠ In caso di emergenza: <strong>112</strong><br/>Telefono Amico: <strong>02-2327-2327</strong></p>
+              <button className="btn-wax" onClick={() => setScreen("register")}><div className="wax-seal">🪶</div>Ho capito, continua</button>
+              <div className="orn">✦ ── ✦ ── ✦</div>
+            </div></div>
           )}
 
-          {/* ── REGISTRAZIONE ── */}
           {screen === "register" && (
-            <div className="body">
-              <div className="onboard">
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
-                <div className="section-title">Chi sei?</div>
-                <div className="section-sub">Due parole per conoscerti</div>
-                <div>
-                  <div className="f-label">IL TUO NOME *</div>
-                  <input className="f-input" placeholder="Come ti chiami?" value={userName} onChange={e => setUserName(e.target.value)} />
-                </div>
-                <div>
-                  <div className="f-label">EMAIL <span style={{fontWeight:300,opacity:.7}}>(facoltativa)</span></div>
-                  <input className="f-input" type="email" placeholder="Per ricevere aggiornamenti..." value={userEmail} onChange={e => setUserEmail(e.target.value)} />
-                </div>
-                <div>
-                  <div className="f-label">NOME DEL TUO AMICO</div>
-                  <input className="f-input" placeholder="Es. Leo, Sofia, Marco… (default: Leo)" value={friendName} onChange={e => setFriendName(e.target.value)} />
-                </div>
-                <button className="btn-seal" disabled={!userName.trim()} onClick={() => setScreen("topic")}>
-                  <span>🪶</span> Avanti
-                </button>
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
-              </div>
-            </div>
+            <div className="body"><div className="onboard">
+              <div className="orn">✦ ── ✦ ── ✦</div>
+              <div className="s-title">Chi sei?</div>
+              <div className="s-sub">Due parole per conoscerti</div>
+              <div><div className="f-label">IL TUO NOME *</div><input className="f-input" placeholder="Come ti chiami?" value={userName} onChange={e => setUserName(e.target.value)}/></div>
+              <div><div className="f-label">EMAIL (facoltativa)</div><input className="f-input" type="email" placeholder="Per ricevere aggiornamenti..." value={userEmail} onChange={e => setUserEmail(e.target.value)}/></div>
+              <div><div className="f-label">NOME DEL TUO AMICO</div><input className="f-input" placeholder="Es. Leo, Sofia, Marco… (default: Leo)" value={friendName} onChange={e => setFriendName(e.target.value)}/></div>
+              <button className="btn-wax" disabled={!userName.trim()} onClick={() => setScreen("topic")}><div className="wax-seal">✦</div>Avanti</button>
+              <div className="orn">✦ ── ✦ ── ✦</div>
+            </div></div>
           )}
 
-          {/* ── ARGOMENTO ── */}
           {screen === "topic" && (
-            <div className="body">
-              <div className="onboard">
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
-                <div className="section-title">Di cosa vuoi scrivere?</div>
-                <div className="section-sub">Scegli il tuo argomento</div>
-                <div className="topic-grid">
-                  {TOPICS.map(t => (
-                    <button key={t.id}
-                      className={`topic-card${t.id==="chiacchiere"?" wide":""}${selectedTopic===t.id?" selected":""}`}
-                      onClick={() => setTopic(t.id)}>
-                      <div className="t-emoji">{t.emoji}</div>
-                      <div className="t-name">{t.label}</div>
-                      <div className="t-sub">{t.sub}</div>
-                    </button>
-                  ))}
-                </div>
-                <button className="btn-seal" disabled={!selectedTopic} onClick={startChat}>
-                  <span>🪶</span> Scrivi la prima lettera
-                </button>
-                <button className="btn-link" onClick={() => setScreen("register")}>← Torna indietro</button>
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
+            <div className="body"><div className="onboard">
+              <div className="orn">✦ ── ✦ ── ✦</div>
+              <div className="s-title">Di cosa vuoi scrivere?</div>
+              <div className="s-sub">Scegli il tuo argomento</div>
+              <div className="topic-grid">
+                {TOPICS.map(t => (
+                  <button key={t.id} className={`topic-card${t.id==="chiacchiere"?" wide":""}${selectedTopic===t.id?" selected":""}`} onClick={() => setTopic(t.id)}>
+                    <div className="t-emoji">{t.emoji}</div>
+                    <div className="t-name">{t.label}</div>
+                    <div className="t-sub">{t.sub}</div>
+                  </button>
+                ))}
               </div>
-            </div>
+              <button className="btn-wax" disabled={!selectedTopic} onClick={startChat}><div className="wax-seal">✦</div>Scrivi la prima lettera</button>
+              <button className="btn-link" onClick={() => setScreen("register")}>← Torna indietro</button>
+              <div className="orn">✦ ── ✦ ── ✦</div>
+            </div></div>
           )}
 
-          {/* ── CHAT ── */}
           {screen === "chat" && activeTab === "chat" && (
             <>
-              <div className="body">
-                <div className="chat-area">
-                  {currentTopic && (
-                    <div className="topic-badge">✦ {currentTopic.emoji} {currentTopic.label} {currentTopic.sub} ✦</div>
-                  )}
-                  {messages.map((m, i) => (
-                    <div key={i}
-                      className={`letter-bubble ${m.role==="assistant"?"letter-from":"letter-user"}`}
-                      style={{whiteSpace:"pre-wrap"}}>
-                      {m.content}
-                    </div>
-                  ))}
-                  {isTyping && (
-                    <div className="typing-quill">
-                      <div className="qdot"/><div className="qdot"/><div className="qdot"/>
-                      <span style={{fontSize:".78rem",color:"var(--text-l)",fontFamily:"'IM Fell English',serif",fontStyle:"italic",marginLeft:4}}>sta scrivendo...</span>
-                    </div>
-                  )}
-                  <div ref={endRef} />
-                </div>
-              </div>
+              <div className="body"><div className="chat-area">
+                {currentTopic && <div className="topic-badge">✦ {currentTopic.emoji} {currentTopic.label} {currentTopic.sub} ✦</div>}
+                {messages.map((m,i) => <div key={i} className={`letter-bubble ${m.role==="assistant"?"letter-from":"letter-user"}`} style={{whiteSpace:"pre-wrap"}}>{m.content}</div>)}
+                {isTyping && <div className="typing-ink"><div className="qdot"/><div className="qdot"/><div className="qdot"/><span style={{fontSize:".78rem",color:"rgba(100,65,15,0.6)",fontFamily:"'IM Fell English',serif",fontStyle:"italic",marginLeft:6}}>sta scrivendo...</span></div>}
+                <div ref={endRef}/>
+              </div></div>
               <div className="input-bar">
-                <textarea
-                  ref={inputRef}
-                  className="quill-textarea"
-                  placeholder="Scrivi la tua lettera..."
-                  value={inputVal}
-                  onChange={e => setInputVal(e.target.value)}
-                  onKeyDown={handleKey}
-                  rows={1}
-                  onInput={e => { e.target.style.height="auto"; e.target.style.height=Math.min(e.target.scrollHeight,90)+"px"; }}
-                />
-                <button className="seal-send" disabled={!inputVal.trim()||isTyping} onClick={sendMessage} title="Sigilla e invia">✦</button>
+                <textarea className="quill-ta" placeholder="Scrivi la tua lettera..." value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyDown={handleKey} rows={1} onInput={e => { e.target.style.height="auto"; e.target.style.height=Math.min(e.target.scrollHeight,90)+"px"; }}/>
+                <button className="seal-send" disabled={!inputVal.trim()||isTyping} onClick={sendMessage}>✦</button>
               </div>
             </>
           )}
 
-          {/* ── PROFILO ── */}
           {screen === "chat" && activeTab === "profilo" && (
-            <div className="body">
-              <div className="profile-section">
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
-                <div className="profile-scroll">
-                  <div className="profile-wax">{userName[0]?.toUpperCase()}</div>
-                  <div>
-                    <div className="profile-name">{userName}</div>
-                    <div className="profile-detail">{userEmail || "Nessuna email fornita"}</div>
-                    <div className="profile-detail">Corrisponde con: <em style={{color:"var(--ink)"}}>{fName}</em></div>
-                  </div>
+            <div className="body"><div className="profile-section">
+              <div className="orn">✦ ── ✦ ── ✦</div>
+              <div className="profile-card">
+                <div className="profile-wax">{userName[0]?.toUpperCase()}</div>
+                <div>
+                  <div className="profile-name">{userName}</div>
+                  <div className="profile-detail">{userEmail || "Nessuna email fornita"}</div>
+                  <div className="profile-detail">Corrisponde con: <em style={{color:"#2a1500"}}>{fName}</em></div>
                 </div>
-                {currentTopic && (
-                  <div className="info-scroll">Argomento scelto: <strong>{currentTopic.emoji} {currentTopic.label} {currentTopic.sub}</strong></div>
-                )}
-                <button className="change-btn" onClick={() => { setTopic(null); setScreen("topic"); }}>
-                  ✦ Cambia argomento
-                </button>
-                <div className="info-scroll">
-                  <strong>Nota importante</strong><br />
-                  Questa app è creata da una persona comune. In caso di vera difficoltà chiama il <strong>112</strong>.
-                </div>
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
               </div>
-            </div>
+              {currentTopic && <div className="info-box">Argomento: <strong>{currentTopic.emoji} {currentTopic.label} {currentTopic.sub}</strong></div>}
+              <button className="change-btn" onClick={() => { setTopic(null); setScreen("topic"); }}>✦ Cambia argomento</button>
+              <div className="info-box"><strong>Nota importante</strong><br/>Questa app è creata da una persona comune. In caso di vera difficoltà chiama il <strong>112</strong>.</div>
+              <div className="orn">✦ ── ✦ ── ✦</div>
+            </div></div>
           )}
 
-          {/* ── SOSTIENI ── */}
           {screen === "chat" && activeTab === "sostieni" && (
-            <div className="body">
-              <div className="donation-section">
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
-                <div className="donation-hero">
-                  <div className="donation-icon">☕</div>
-                  <div className="donation-title">Ti piace Un Amico?</div>
-                  <p className="donation-text">Questa app è nata da una persona comune, con la voglia di creare qualcosa di utile per chi si sente solo. Se ti ha fatto compagnia, anche una piccola donazione aiuta a tenerla in vita.</p>
-                </div>
-                <a className="kofi-btn" href={KOFI_LINK} target="_blank" rel="noopener noreferrer">
-                  ☕ Offrimi un caffè su Ko-fi
-                </a>
-                <p className="donation-note">Nessun obbligo, solo gratitudine 🙏<br />Ogni donazione è libera e anonima.</p>
-                <div className="what-scroll">
-                  <div className="what-title">✦ A COSA SERVONO LE DONAZIONI ✦</div>
-                  {[["🔧","Mantenere i server attivi"],["✨","Aggiungere nuovi argomenti"],["🌍","Tradurre in altre lingue"],["💙","Tenere tutto gratuito"]].map(([icon,text]) => (
-                    <div key={text} className="what-item"><span style={{fontSize:14}}>{icon}</span><span>{text}</span></div>
-                  ))}
-                </div>
-                <div className="ornament-divider">✦ ─── ✦ ─── ✦</div>
+            <div className="body"><div className="donation-section">
+              <div className="orn">✦ ── ✦ ── ✦</div>
+              <div className="donation-hero">
+                <div className="donation-icon">☕</div>
+                <div className="donation-title">Ti piace Un Amico?</div>
+                <p className="donation-text">Questa app è nata da una persona comune, con la voglia di creare qualcosa di utile per chi si sente solo. Se ti ha fatto compagnia, una piccola donazione aiuta a tenerla in vita.</p>
               </div>
-            </div>
+              <a className="kofi-btn" href={KOFI_LINK} target="_blank" rel="noopener noreferrer">☕ Offrimi un caffè su Ko-fi</a>
+              <p className="donation-note">Nessun obbligo, solo gratitudine 🙏<br/>Ogni donazione è libera e anonima.</p>
+              <div className="what-box">
+                <div className="what-title">✦ A COSA SERVONO LE DONAZIONI ✦</div>
+                {[["🔧","Mantenere i server attivi"],["✨","Aggiungere nuovi argomenti"],["🌍","Tradurre in altre lingue"],["💙","Tenere tutto gratuito"]].map(([icon,text]) => (
+                  <div key={text} className="what-item"><span style={{fontSize:14}}>{icon}</span><span>{text}</span></div>
+                ))}
+              </div>
+              <div className="orn">✦ ── ✦ ── ✦</div>
+            </div></div>
           )}
 
         </div>
