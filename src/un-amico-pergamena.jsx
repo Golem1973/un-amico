@@ -82,7 +82,7 @@ html,body{font-family:'Lora',serif;background:#1a0d05;}
   width:220px;
   flex-shrink:0;
 }
-.deco-right { padding-top:180px; }
+.deco-right { padding-top:320px; }
 
 /* ── CILINDRO TOP — immagine reale ── */
 .roll-top{
@@ -477,56 +477,17 @@ export default function UnAmico() {
 
           {/* DECORAZIONE DESTRA — solo desktop */}
           <div className="deco-right">
-            <svg width="140" height="380" viewBox="0 0 140 380" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <radialGradient id="candleGrad" cx="40%" cy="30%" r="65%">
-                  <stop offset="0%" stopColor="#f5e8d0"/>
-                  <stop offset="100%" stopColor="#d4b870"/>
-                </radialGradient>
-                <radialGradient id="flameGrad" cx="50%" cy="20%" r="70%">
-                  <stop offset="0%" stopColor="#fff5a0"/>
-                  <stop offset="40%" stopColor="#f5a020"/>
-                  <stop offset="100%" stopColor="#c05010"/>
-                </radialGradient>
-              </defs>
-
-              {/* Candela */}
-              {/* Fiamma */}
-              <ellipse cx="70" cy="52" rx="6" ry="10" fill="rgba(255,200,50,0.3)" />
-              <path d="M64,65 Q62,48 70,38 Q78,48 76,65Z" fill="url(#flameGrad)"/>
-              <path d="M67,65 Q66,52 70,44 Q74,52 73,65Z" fill="#fff5c0" opacity="0.8"/>
-              {/* Stoppino */}
-              <line x1="70" y1="65" x2="70" y2="72" stroke="#2a1a05" strokeWidth="1.5"/>
-              {/* Corpo candela */}
-              <rect x="52" y="70" width="36" height="180" rx="4" fill="url(#candleGrad)"/>
-              {/* Righe texture candela */}
-              <line x1="53" y1="100" x2="87" y2="100" stroke="rgba(180,140,60,0.2)" strokeWidth="0.5"/>
-              <line x1="53" y1="130" x2="87" y2="130" stroke="rgba(180,140,60,0.2)" strokeWidth="0.5"/>
-              <line x1="53" y1="160" x2="87" y2="160" stroke="rgba(180,140,60,0.2)" strokeWidth="0.5"/>
-              <line x1="53" y1="190" x2="87" y2="190" stroke="rgba(180,140,60,0.2)" strokeWidth="0.5"/>
-              {/* Riflesso candela */}
-              <rect x="56" y="75" width="8" height="160" rx="3" fill="rgba(255,255,255,0.15)"/>
-              {/* Cera colata */}
-              <path d="M52,120 Q48,125 49,140 Q52,145 52,155" stroke="#e8d090" strokeWidth="5" fill="none" strokeLinecap="round" opacity="0.6"/>
-              {/* Base */}
-              <ellipse cx="70" cy="252" rx="24" ry="6" fill="#c8a030"/>
-              <rect x="46" y="250" width="48" height="12" rx="3" fill="#a07818"/>
-              <ellipse cx="70" cy="262" rx="28" ry="7" fill="#8a6010"/>
-              {/* Piattino */}
-              <ellipse cx="70" cy="268" rx="36" ry="9" fill="#c89828"/>
-              <ellipse cx="70" cy="265" rx="30" ry="6" fill="#e8b830" opacity="0.5"/>
-
-              {/* Sigillo ceralacca */}
-              <circle cx="70" cy="320" r="26" fill="#8b0a0a"/>
-              <circle cx="70" cy="320" r="26" fill="url(#flameGrad)" opacity="0.3"/>
-              <circle cx="70" cy="320" r="22" fill="#7a0808"/>
-              {/* Lettera sul sigillo */}
-              <text x="70" y="326" textAnchor="middle" fontFamily="Cinzel, serif" fontSize="18" fill="rgba(255,200,150,0.85)" fontWeight="600">A</text>
-              {/* Bordo sigillo */}
-              <circle cx="70" cy="320" r="26" fill="none" stroke="#c84020" strokeWidth="1" opacity="0.5"/>
-
-              <text x="70" y="370" textAnchor="middle" fontFamily="Cinzel, serif" fontSize="11" fill="rgba(200,150,40,0.5)" letterSpacing="3">✦ ── ✦</text>
-            </svg>
+            <img
+              src={PENNA_IMG}
+              alt="Penna d'oca e calamaio"
+              style={{
+                width:"200px",
+                opacity:0.92,
+                filter:"drop-shadow(0 8px 24px rgba(0,0,0,0.8))",
+                mixBlendMode:"lighten",
+                transform:"scaleX(-1)",
+              }}
+            />
           </div>
 
         </div>
