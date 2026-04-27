@@ -169,15 +169,32 @@ html,body{font-family:'Lora',serif;background:#1a0d05;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
 .letter-from{background:rgba(255,248,208,0.78);border:1px solid rgba(90,48,8,0.2);border-radius:2px 10px 10px 2px;align-self:flex-start;color:#000000;box-shadow:3px 4px 0 rgba(60,28,4,0.12),4px 6px 12px rgba(0,0,0,0.09);}
 .letter-from::after{content:'';position:absolute;top:0;right:0;width:0;height:0;border-style:solid;border-width:0 14px 14px 0;border-color:transparent rgba(150,100,15,0.25) transparent transparent;}
-.letter-user{background:rgba(22,10,3,0.82);border:1px solid rgba(165,105,22,0.3);border-radius:10px 2px 2px 10px;align-self:flex-end;color:#f0d050;box-shadow:-3px 4px 0 rgba(5,2,0,0.36),-4px 6px 12px rgba(0,0,0,0.22);}
+.letter-user{background:rgba(15,6,1,0.78);border:1px solid rgba(160,100,20,0.4);border-radius:10px 2px 2px 10px;align-self:flex-end;color:#f5d84a;box-shadow:-2px 3px 8px rgba(0,0,0,0.3);}
 .topic-badge{align-self:center;background:rgba(18,8,2,0.55);border:1px solid rgba(165,105,22,0.35);border-radius:20px;padding:5px 15px;font-family:'Cinzel',serif;font-size:.66rem;color:rgba(210,160,38,0.88);letter-spacing:.08em;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
-.typing-ink{display:flex;gap:5px;align-items:center;padding:12px 16px;background:rgba(255,248,208,0.72);border:1px solid rgba(90,48,8,0.18);border-radius:2px 10px 10px 2px;align-self:flex-start;box-shadow:3px 4px 0 rgba(60,28,4,0.1),4px 6px 10px rgba(0,0,0,0.07);animation:fadeIn .25s ease;}
+.typing-ink{display:flex;gap:5px;align-items:center;padding:12px 16px;background:rgba(235,195,120,0.3);border:1px solid rgba(90,48,8,0.2);border-radius:2px 10px 10px 2px;align-self:flex-start;box-shadow:2px 3px 8px rgba(0,0,0,0.1);animation:fadeIn .25s ease;}
 .qdot{width:6px;height:6px;background:rgba(95,52,8,0.55);border-radius:50%;animation:qdot 1.2s infinite;}
 .qdot:nth-child(2){animation-delay:.2s}
 .qdot:nth-child(3){animation-delay:.4s}
 @keyframes qdot{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-5px);opacity:1}}
 
 .input-bar{display:flex;gap:10px;align-items:flex-end;padding-top:13px;border-top:1px solid rgba(0,0,0,0.2);}
+.letter-area{
+  width:100%;
+  min-height:180px;
+  border:1px solid rgba(80,40,5,0.25);
+  border-radius:3px;
+  background:rgba(245,225,170,0.3);
+  font-family:'Lora',serif;
+  font-size:1rem;
+  color:#000000;
+  line-height:1.85;
+  padding:14px 16px;
+  resize:vertical;
+  outline:none;
+  transition:border-color .2s;
+}
+.letter-area:focus{border-color:rgba(60,25,4,0.5);}
+.letter-area::placeholder{color:rgba(0,0,0,0.35);font-style:italic;}
 .quill-ta{flex:1;border:none;border-bottom:1.5px solid rgba(80,40,5,0.24);background:transparent;font-family:'Lora',serif;font-size:.96rem;color:#000000;resize:none;outline:none;min-height:36px;max-height:96px;line-height:1.5;padding:3px 4px;}
 .quill-ta::placeholder{color:rgba(0,0,0,0.45);}
 .seal-send{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#ff8888,#cc1515 38%,#8b0808 68%,#4a0303 100%);border:none;color:rgba(255,218,168,0.95);font-size:1.05rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;box-shadow:0 5px 0 #2e0101,0 7px 12px rgba(0,0,0,0.4),inset 0 1px 2px rgba(255,140,140,0.3);position:relative;top:0;}
@@ -214,6 +231,7 @@ export default function UnAmico() {
   const [apiHistory, setApiHist]    = useState([]);
   const [inputVal, setInputVal]     = useState("");
   const [isTyping, setIsTyping]     = useState(false);
+  const [letterSent, setLetterSent] = useState(false);
   const endRef = useRef(null);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, isTyping]);
@@ -230,28 +248,10 @@ export default function UnAmico() {
     setActiveTab("chat");
   };
 
-  const sendMessage = async () => {
-    if (!inputVal.trim() || isTyping) return;
-    const userMsg = { role: "user", content: inputVal.trim() };
+  const sendMessage = () => {
+    if (!inputVal.trim() || letterSent) return;
+    setLetterSent(true);
     setInputVal("");
-    const newMsgs = [...messages, userMsg];
-    setMessages(newMsgs);
-    const newHist = [...apiHistory, userMsg];
-    setIsTyping(true);
-    try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, system: SYSTEM_PROMPT(userName, fName, selectedTopic || "chiacchiere"), messages: newHist }),
-      });
-      const data = await res.json();
-      const reply = data.content?.[0]?.text || "...";
-      const aMsg = { role: "assistant", content: reply };
-      setMessages([...newMsgs, aMsg]);
-      setApiHist([...newHist, aMsg]);
-    } catch {
-      setMessages([...newMsgs, { role: "assistant", content: "La penna si è fermata un momento. Riprova tra poco." }]);
-    } finally { setIsTyping(false); }
   };
 
   const handleKey = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); } };
@@ -301,9 +301,9 @@ export default function UnAmico() {
                 <div className="s-title">Chi sei?</div>
                 <div className="s-sub">Due parole per conoscerti</div>
                 <div className="f-wrap"><label className="f-label">IL TUO NOME *</label><input className="f-input" placeholder="Come ti chiami?" value={userName} onChange={e => setUserName(e.target.value)}/></div>
-                <div className="f-wrap"><label className="f-label">EMAIL (facoltativa)</label><input className="f-input" type="email" placeholder="Per ricevere la risposta del tuo amico..." value={userEmail} onChange={e => setUserEmail(e.target.value)}/></div>
+                <div className="f-wrap"><label className="f-label">EMAIL *</label><input className="f-input" type="email" placeholder="La tua email per ricevere la risposta" value={userEmail} onChange={e => setUserEmail(e.target.value)}/></div>
                 <div className="f-wrap"><label className="f-label">DATA DI NASCITA (facoltativa)</label><input className="f-input" type="date" value={birthDate} onChange={e => setBirthDate(e.target.value)}/></div>
-                <button className="btn-wax" disabled={!userName.trim()} onClick={() => setScreen("topic")}><div className="wax-seal">✦</div>Avanti</button>
+                <button className="btn-wax" disabled={!userName.trim() || !userEmail.trim()} onClick={() => setScreen("topic")}><div className="wax-seal">✦</div>Avanti</button>
                 <button className="btn-link" onClick={() => setScreen("welcome")}>← Torna indietro</button>
                 <div className="orn">✦ ── ✦ ── ✦</div>
               </>}
@@ -327,16 +327,40 @@ export default function UnAmico() {
               </>}
 
               {screen === "chat" && activeTab === "chat" && <>
-                <div className="chat-area">
-                  {currentTopic && <div className="topic-badge">✦ {currentTopic.emoji} {currentTopic.label} {currentTopic.sub} ✦</div>}
-                  {messages.map((m,i) => <div key={i} className={`letter-bubble ${m.role==="assistant"?"letter-from":"letter-user"}`} style={{whiteSpace:"pre-wrap"}}>{m.content}</div>)}
-                  {isTyping && <div className="typing-ink"><div className="qdot"/><div className="qdot"/><div className="qdot"/><span style={{fontSize:".84rem",color:"rgba(65,32,4,0.48)",fontFamily:"'Lora',serif",marginLeft:6}}>sta scrivendo...</span></div>}
-                  <div ref={endRef}/>
-                </div>
-                <div className="input-bar">
-                  <textarea className="quill-ta" placeholder="Scrivi la tua lettera..." value={inputVal} onChange={e => setInputVal(e.target.value)} onKeyDown={handleKey} rows={1} onInput={e => { e.target.style.height="auto"; e.target.style.height=Math.min(e.target.scrollHeight,96)+"px"; }}/>
-                  <button className="seal-send" disabled={!inputVal.trim()||isTyping} onClick={sendMessage}>✦</button>
-                </div>
+                {!letterSent ? (
+                  <>
+                    <div className="orn">✦ ── ✦ ── ✦</div>
+                    {currentTopic && (
+                      <div className="topic-badge">✦ {currentTopic.emoji} {currentTopic.label} {currentTopic.sub} ✦</div>
+                    )}
+                    <div className="s-title" style={{marginTop:4}}>La tua lettera</div>
+                    <div className="s-sub">Scrivi liberamente, senza fretta</div>
+                    <textarea
+                      className="letter-area"
+                      placeholder={`Caro Amico,\n\n`}
+                      value={inputVal}
+                      onChange={e => setInputVal(e.target.value)}
+                      rows={8}
+                    />
+                    <button className="btn-wax" disabled={!inputVal.trim()} onClick={sendMessage}>
+                      <div className="wax-seal">✦</div>
+                      Sigilla e invia
+                    </button>
+                    <div className="orn">✦ ── ✦ ── ✦</div>
+                  </>
+                ) : (
+                  <>
+                    <div className="orn">✦ ── ✦ ── ✦</div>
+                    <div style={{textAlign:"center",fontSize:"2.5rem",margin:"8px 0"}}>📜</div>
+                    <div className="s-title">Lettera consegnata</div>
+                    <div className="scroll-text" style={{textAlign:"center",marginTop:8}}>
+                      La tua lettera è arrivata, {userName}.<br/><br/>
+                      Riceverai una email su <strong>{userEmail}</strong> non appena ti avrò risposto.<br/><br/>
+                      L'attesa fa parte del viaggio.
+                    </div>
+                    <div className="orn" style={{marginTop:8}}>✦ ── ✦ ── ✦</div>
+                  </>
+                )}
               </>}
 
               {screen === "chat" && activeTab === "profilo" && <>
