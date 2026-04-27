@@ -35,6 +35,7 @@ html,body{font-family:'Lora',serif;background:#1a0d05;}
   min-height:100vh;
   display:flex;
   justify-content:center;
+  align-items:flex-start;
   background:radial-gradient(ellipse at 50% 20%,#2a1508,#0f0803);
   padding:16px 0 40px;
 }
@@ -46,6 +47,41 @@ html,body{font-family:'Lora',serif;background:#1a0d05;}
   flex-direction:column;
   filter:drop-shadow(0 20px 50px rgba(0,0,0,0.85));
 }
+
+/* ── LAYOUT DESKTOP ── */
+@media (min-width: 900px) {
+  .app-wrap {
+    align-items:flex-start;
+    padding:40px 0 60px;
+  }
+  .desktop-wrap {
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    gap:0;
+    width:100%;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .scroll-outer {
+    max-width:580px;
+    flex-shrink:0;
+  }
+  .deco-left, .deco-right {
+    display:flex !important;
+  }
+}
+
+.deco-left, .deco-right {
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:140px;
+  width:220px;
+  flex-shrink:0;
+}
+.deco-right { padding-top:180px; }
 
 /* ── CILINDRO TOP — immagine reale ── */
 .roll-top{
@@ -233,6 +269,7 @@ export default function UnAmico() {
   const [isTyping, setIsTyping]     = useState(false);
   const [letterSent, setLetterSent] = useState(false);
   const endRef = useRef(null);
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, isTyping]);
 
@@ -260,6 +297,71 @@ export default function UnAmico() {
     <>
       <style>{css}</style>
       <div className="app-wrap">
+        <div className="desktop-wrap">
+
+          {/* DECORAZIONE SINISTRA — solo desktop */}
+          <div className="deco-left">
+            <svg width="160" height="420" viewBox="0 0 160 420" xmlns="http://www.w3.org/2000/svg">
+              {/* Calamaio */}
+              <defs>
+                <radialGradient id="inkGrad" cx="40%" cy="35%" r="60%">
+                  <stop offset="0%" stopColor="#4a3020"/>
+                  <stop offset="100%" stopColor="#150a03"/>
+                </radialGradient>
+                <radialGradient id="inkShine" cx="35%" cy="30%" r="50%">
+                  <stop offset="0%" stopColor="rgba(255,200,100,0.25)"/>
+                  <stop offset="100%" stopColor="transparent"/>
+                </radialGradient>
+                <radialGradient id="inkSurf" cx="50%" cy="40%" r="55%">
+                  <stop offset="0%" stopColor="#0a0a12"/>
+                  <stop offset="80%" stopColor="#050508"/>
+                  <stop offset="100%" stopColor="#020203"/>
+                </radialGradient>
+              </defs>
+
+              {/* Base calamaio */}
+              <ellipse cx="80" cy="310" rx="52" ry="10" fill="rgba(0,0,0,0.4)"/>
+              {/* Corpo calamaio */}
+              <path d="M30,220 Q28,300 32,308 Q80,320 128,308 Q132,300 130,220 Z" fill="url(#inkGrad)"/>
+              {/* Collo */}
+              <path d="M52,220 Q52,200 60,192 L100,192 Q108,200 108,220 Z" fill="url(#inkGrad)"/>
+              {/* Bordo superiore collo */}
+              <ellipse cx="80" cy="192" rx="22" ry="5" fill="#2a1505" stroke="#6a3808" strokeWidth="1"/>
+              {/* Tappo */}
+              <rect x="62" y="182" width="36" height="14" rx="7" fill="#1a0a03" stroke="#8a5010" strokeWidth="1"/>
+              {/* Superficie inchiostro */}
+              <ellipse cx="80" cy="226" rx="46" ry="10" fill="url(#inkSurf)"/>
+              <ellipse cx="80" cy="226" rx="46" ry="10" fill="url(#inkShine)"/>
+              {/* Riflesso corpo */}
+              <path d="M36,240 Q38,280 40,300" stroke="rgba(255,180,60,0.15)" strokeWidth="4" fill="none" strokeLinecap="round"/>
+              {/* Bordo dorato */}
+              <path d="M30,225 Q28,300 32,308" stroke="#6a3808" strokeWidth="1" fill="none"/>
+              <path d="M130,225 Q132,300 128,308" stroke="#6a3808" strokeWidth="1" fill="none"/>
+              <path d="M30,225 Q80,235 130,225" stroke="#8a5010" strokeWidth="1.5" fill="none"/>
+
+              {/* Penna d'oca — inclinata verso destra */}
+              <g transform="translate(95,25) rotate(25)">
+                {/* Piuma — barbe */}
+                <path d="M0,0 Q-8,20 -12,60 Q-6,50 0,40 Q6,50 12,60 Q8,20 0,0Z" fill="#c84020" opacity="0.9"/>
+                <path d="M0,0 Q-14,30 -18,80 Q-8,65 0,50 Q8,65 18,80 Q14,30 0,0Z" fill="#e05030" opacity="0.75"/>
+                <path d="M0,0 Q-18,40 -22,100 Q-10,80 0,62 Q10,80 22,100 Q18,40 0,0Z" fill="#cc3818" opacity="0.6"/>
+                <path d="M0,0 Q-20,50 -24,120 Q-10,95 0,75 Q10,95 24,120 Q20,50 0,0Z" fill="#b82e12" opacity="0.45"/>
+                {/* Rachide centrale */}
+                <line x1="0" y1="0" x2="0" y2="160" stroke="#f5e0c0" strokeWidth="1.5" opacity="0.8"/>
+                {/* Punta calamo */}
+                <path d="M-3,155 Q0,175 3,155 L0,160Z" fill="#f5e8d0"/>
+                <path d="M-1,162 L0,185 L1,162Z" fill="#d4c0a0"/>
+                {/* Punta inchiostrata */}
+                <path d="M-0.5,180 L0,200 L0.5,180Z" fill="#050508"/>
+              </g>
+
+              {/* Testo decorativo */}
+              <text x="80" y="370" textAnchor="middle" fontFamily="Cinzel, serif" fontSize="11" fill="rgba(200,150,40,0.5)" letterSpacing="3">✦ ── ✦</text>
+              <text x="80" y="395" textAnchor="middle" fontFamily="IM Fell English, serif" fontSize="12" fill="rgba(200,150,40,0.4)" fontStyle="italic">Un posto dove</text>
+              <text x="80" y="412" textAnchor="middle" fontFamily="IM Fell English, serif" fontSize="12" fill="rgba(200,150,40,0.4)" fontStyle="italic">non sei solo</text>
+            </svg>
+          </div>
+
         <div className="scroll-outer">
 
           <div className="roll-top">
@@ -301,9 +403,17 @@ export default function UnAmico() {
                 <div className="s-title">Chi sei?</div>
                 <div className="s-sub">Due parole per conoscerti</div>
                 <div className="f-wrap"><label className="f-label">IL TUO NOME *</label><input className="f-input" placeholder="Come ti chiami?" value={userName} onChange={e => setUserName(e.target.value)}/></div>
-                <div className="f-wrap"><label className="f-label">EMAIL *</label><input className="f-input" type="email" placeholder="La tua email per ricevere la risposta" value={userEmail} onChange={e => setUserEmail(e.target.value)}/></div>
+                <div className="f-wrap">
+                  <label className="f-label">EMAIL *</label>
+                  <input className="f-input" type="email" placeholder="La tua email per ricevere la risposta" value={userEmail} onChange={e => setUserEmail(e.target.value)}/>
+                  {userEmail.length > 0 && !isValidEmail(userEmail) && (
+                    <span style={{fontSize:".78rem",color:"#8b0000",fontFamily:"'Lora',serif",marginTop:3}}>
+                      Inserisci un indirizzo email valido
+                    </span>
+                  )}
+                </div>
                 <div className="f-wrap"><label className="f-label">DATA DI NASCITA (facoltativa)</label><input className="f-input" type="date" value={birthDate} onChange={e => setBirthDate(e.target.value)}/></div>
-                <button className="btn-wax" disabled={!userName.trim() || !userEmail.trim()} onClick={() => setScreen("topic")}><div className="wax-seal">✦</div>Avanti</button>
+                <button className="btn-wax" disabled={!userName.trim() || !isValidEmail(userEmail)} onClick={() => setScreen("topic")}><div className="wax-seal">✦</div>Avanti</button>
                 <button className="btn-link" onClick={() => setScreen("welcome")}>← Torna indietro</button>
                 <div className="orn">✦ ── ✦ ── ✦</div>
               </>}
@@ -398,6 +508,62 @@ export default function UnAmico() {
 
           <div className="roll-bottom">
             <img src={BOTTOM_IMG} alt="" aria-hidden="true"/>
+          </div>
+
+        </div>
+
+          {/* DECORAZIONE DESTRA — solo desktop */}
+          <div className="deco-right">
+            <svg width="140" height="380" viewBox="0 0 140 380" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="candleGrad" cx="40%" cy="30%" r="65%">
+                  <stop offset="0%" stopColor="#f5e8d0"/>
+                  <stop offset="100%" stopColor="#d4b870"/>
+                </radialGradient>
+                <radialGradient id="flameGrad" cx="50%" cy="20%" r="70%">
+                  <stop offset="0%" stopColor="#fff5a0"/>
+                  <stop offset="40%" stopColor="#f5a020"/>
+                  <stop offset="100%" stopColor="#c05010"/>
+                </radialGradient>
+              </defs>
+
+              {/* Candela */}
+              {/* Fiamma */}
+              <ellipse cx="70" cy="52" rx="6" ry="10" fill="rgba(255,200,50,0.3)" />
+              <path d="M64,65 Q62,48 70,38 Q78,48 76,65Z" fill="url(#flameGrad)"/>
+              <path d="M67,65 Q66,52 70,44 Q74,52 73,65Z" fill="#fff5c0" opacity="0.8"/>
+              {/* Stoppino */}
+              <line x1="70" y1="65" x2="70" y2="72" stroke="#2a1a05" strokeWidth="1.5"/>
+              {/* Corpo candela */}
+              <rect x="52" y="70" width="36" height="180" rx="4" fill="url(#candleGrad)"/>
+              {/* Righe texture candela */}
+              <line x1="53" y1="100" x2="87" y2="100" stroke="rgba(180,140,60,0.2)" strokeWidth="0.5"/>
+              <line x1="53" y1="130" x2="87" y2="130" stroke="rgba(180,140,60,0.2)" strokeWidth="0.5"/>
+              <line x1="53" y1="160" x2="87" y2="160" stroke="rgba(180,140,60,0.2)" strokeWidth="0.5"/>
+              <line x1="53" y1="190" x2="87" y2="190" stroke="rgba(180,140,60,0.2)" strokeWidth="0.5"/>
+              {/* Riflesso candela */}
+              <rect x="56" y="75" width="8" height="160" rx="3" fill="rgba(255,255,255,0.15)"/>
+              {/* Cera colata */}
+              <path d="M52,120 Q48,125 49,140 Q52,145 52,155" stroke="#e8d090" strokeWidth="5" fill="none" strokeLinecap="round" opacity="0.6"/>
+              {/* Base */}
+              <ellipse cx="70" cy="252" rx="24" ry="6" fill="#c8a030"/>
+              <rect x="46" y="250" width="48" height="12" rx="3" fill="#a07818"/>
+              <ellipse cx="70" cy="262" rx="28" ry="7" fill="#8a6010"/>
+              {/* Piattino */}
+              <ellipse cx="70" cy="268" rx="36" ry="9" fill="#c89828"/>
+              <ellipse cx="70" cy="265" rx="30" ry="6" fill="#e8b830" opacity="0.5"/>
+
+              {/* Sigillo ceralacca */}
+              <circle cx="70" cy="320" r="26" fill="#8b0a0a"/>
+              <circle cx="70" cy="320" r="26" fill="url(#flameGrad)" opacity="0.3"/>
+              <circle cx="70" cy="320" r="22" fill="#7a0808"/>
+              {/* Lettera sul sigillo */}
+              <text x="70" y="326" textAnchor="middle" fontFamily="Cinzel, serif" fontSize="18" fill="rgba(255,200,150,0.85)" fontWeight="600">A</text>
+              {/* Bordo sigillo */}
+              <circle cx="70" cy="320" r="26" fill="none" stroke="#c84020" strokeWidth="1" opacity="0.5"/>
+
+              <text x="70" y="370" textAnchor="middle" fontFamily="Cinzel, serif" fontSize="11" fill="rgba(200,150,40,0.5)" letterSpacing="3">✦ ── ✦</text>
+            </svg>
           </div>
 
         </div>
