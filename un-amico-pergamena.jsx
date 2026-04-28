@@ -4,81 +4,15 @@ const KOFI_LINK     = "https://ko-fi.com/tuonome";
 const SUPABASE_URL  = "https://jldepuerdcgckpjzgcsp.supabase.co";
 const SUPABASE_KEY  = "sb_publishable_GkMkBqWEe6zHGEha5fARoA_9CFKNYo7";
 
-// Funzione per inviare email di conferma via Resend
+// Funzione per inviare email tramite Vercel Edge Function
 async function inviaEmailConferma(nome, email, argomento) {
-  const RESEND_KEY = "re_3sQMf6qG_CkGvbL5VMGF3VYhXM9Ad89YH";
-  const topicLabels = {
-    solitudine: "🌙 Solitudine e compagnia",
-    stress:     "🌊 Stress e lavoro",
-    famiglia:   "🏡 Famiglia e relazioni",
-    tristezza:  "🍂 Tristezza e umore",
-    chiacchiere:"☀️ Chiacchiere e tutto il resto",
-  };
-  const topicLabel = topicLabels[argomento] || argomento;
-
-  const html = `
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-</head>
-<body style="margin:0;padding:0;background:#1a0d05;font-family:Georgia,serif;">
-  <table width="100%" cellpadding="0" cellspacing="0">
-    <tr>
-      <td align="center" style="padding:40px 20px;">
-        <table width="100%" style="max-width:520px;" cellpadding="0" cellspacing="0">
-          <!-- Header -->
-          <tr>
-            <td style="background:linear-gradient(135deg,#2a1208,#1a0a04);padding:30px 40px;text-align:center;border-radius:4px 4px 0 0;border:1px solid rgba(180,120,30,0.4);border-bottom:none;">
-              <div style="font-family:Georgia,serif;font-size:28px;color:#f0c030;letter-spacing:6px;margin-bottom:6px;">UN AMICO</div>
-              <div style="font-size:13px;color:rgba(200,155,50,0.65);font-style:italic;">unamico.eu</div>
-            </td>
-          </tr>
-          <!-- Corpo pergamena -->
-          <tr>
-            <td style="background:linear-gradient(160deg,#f8ebb5,#f2dc90,#f8e8b0,#edd878);padding:40px 44px;border-left:1px solid rgba(140,90,20,0.4);border-right:1px solid rgba(140,90,20,0.4);">
-              <div style="font-family:Georgia,serif;font-size:13px;color:rgba(60,28,4,0.55);text-align:center;letter-spacing:4px;margin-bottom:24px;">✦ ── ✦ ── ✦</div>
-              <div style="font-family:Georgia,serif;font-size:22px;color:#1a0c02;text-align:center;letter-spacing:3px;margin-bottom:20px;">Caro ${nome},</div>
-              <div style="font-size:16px;color:#1a0c02;line-height:1.9;margin-bottom:20px;">
-                la tua lettera è arrivata.<br/><br/>
-                Hai scelto di scrivere di <strong>${topicLabel}</strong>.<br/><br/>
-                Leggerò le tue parole con attenzione e ti risponderò con calma, come farebbe un vero amico.<br/><br/>
-                <em>L'attesa fa parte del viaggio.</em>
-              </div>
-              <div style="font-family:Georgia,serif;font-size:13px;color:rgba(60,28,4,0.55);text-align:center;letter-spacing:4px;margin-top:28px;">✦ ── ✦ ── ✦</div>
-            </td>
-          </tr>
-          <!-- Footer -->
-          <tr>
-            <td style="background:#1a0a04;padding:20px 40px;text-align:center;border-radius:0 0 4px 4px;border:1px solid rgba(140,90,20,0.4);border-top:none;">
-              <div style="font-size:12px;color:rgba(200,155,50,0.5);font-style:italic;">Un Amico · unamico.eu</div>
-              <div style="font-size:11px;color:rgba(200,155,50,0.35);margin-top:4px;">Non rispondere a questa email — usa il sito per scrivere</div>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>`;
-
-  await fetch("https://api.resend.com/emails", {
+  await fetch("/api/send-email", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${RESEND_KEY}`
-    },
-    body: JSON.stringify({
-      from: "Un Amico <ciao@unamico.eu>",
-      to: [email],
-      subject: "La tua lettera è arrivata 📜",
-      html,
-    })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tipo: "conferma", nome, email, argomento })
   });
 }
 
-// Funzione per salvare la lettera su Supabase
 async function salvaLettera(nome, email, dataNascita, argomento, messaggio) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/lettere`, {
     method: "POST",
