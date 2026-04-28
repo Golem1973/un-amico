@@ -4,7 +4,21 @@ const KOFI_LINK     = "https://ko-fi.com/tuonome";
 const SUPABASE_URL  = "https://jldepuerdcgckpjzgcsp.supabase.co";
 const SUPABASE_KEY  = "sb_publishable_GkMkBqWEe6zHGEha5fARoA_9CFKNYo7";
 
-// Funzione per salvare la lettera su Supabase
+// Funzione per inviare email tramite Vercel Edge Function
+async function inviaEmailConferma(nome, email, argomento) {
+  try {
+    const res = await fetch("/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tipo: "conferma", nome, email, argomento })
+    });
+    const data = await res.json();
+    console.log("Email risposta:", data);
+  } catch(err) {
+    console.error("Errore email:", err);
+  }
+}
+
 async function salvaLettera(nome, email, dataNascita, argomento, messaggio) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/lettere`, {
     method: "POST",
@@ -331,6 +345,8 @@ export default function UnAmico() {
         inputVal.trim()
       );
       setLetterSent(true);
+      // Invia email di conferma (non bloccante)
+      inviaEmailConferma(userName, userEmail, selectedTopic || "chiacchiere");
       setInputVal("");
     } catch (err) {
       console.error("Errore salvataggio:", err);
