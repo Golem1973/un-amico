@@ -3,14 +3,14 @@ export const config = { runtime: 'edge' };
 const RESEND_KEY = "re_3sQMf6qG_CkGvbL5VMGF3VYhXM9Ad89YH";
 
 export default async function handler(req) {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  };
+
   if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
-      }
-    });
+    return new Response(null, { headers: corsHeaders });
   }
 
   if (req.method !== 'POST') {
@@ -113,18 +113,12 @@ export default async function handler(req) {
     const data = await res.json();
     return new Response(JSON.stringify(data), {
       status: res.ok ? 200 : 400,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      }
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      }
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   }
 }
